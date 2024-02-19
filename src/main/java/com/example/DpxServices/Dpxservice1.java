@@ -21,6 +21,8 @@ import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.Updates;
 import com.mongodb.client.result.DeleteResult;
+import com.mongodb.client.result.UpdateResult;
+
 import org.bson.types.ObjectId;
 
 public class Dpxservice1 {
@@ -34,7 +36,7 @@ public class Dpxservice1 {
     //private static Map<Long,Product> products =Databaseclass.getProducts();
 
     public List<Product> getAllProducts(){
-       
+        
         FindIterable<Document> findIterable = collection.find();
         // Getting the iterator
         Iterator<Document> iterator = findIterable.iterator();
@@ -84,32 +86,38 @@ public class Dpxservice1 {
             //products.put(product.getId(),product);
             return product;
     }
-    public Product updateProduct(Product product){
-        if(product.getId()<=0)return null;
 
-        collection.updateOne(Filters.eq("id",(Object)product.getId()),Updates.set("name",(Object)product.getName()));
+
+    public UpdateResult updateProduct(Product product){
+        if(product.getId()<=0) return null;
+
+        UpdateResult result = collection.updateOne(Filters.eq("id",(Object)product.getId()),Updates.set("name",(Object)product.getName()));
         System.out.println("Document updated successfully.");
-        //products.put(product.getId(),product);
-        return product;
+  
+        return result;
     }
-    public Product removeProduct(long id){
-            
-        FindIterable<Document> findIterable = collection.find();
-        // Getting the iterator
-        Iterator<Document> iterator = findIterable.iterator();
-        //List<Product> list=new ArrayList<>();
-        while (iterator.hasNext()){
-            Document document = iterator.next();
-            long test=id;
-            if(test==(long)document.get("id")){
-                collection.deleteOne(document);
-                break;
-            }
-           
-        }
 
-            //return products.remove(id);
-        return null;
+
+    public DeleteResult removeProduct(long id){
+            
+        // FindIterable<Document> findIterable = collection.find();
+        // // Getting the iterator
+        // Iterator<Document> iterator = findIterable.iterator();      
+        // while (iterator.hasNext()){
+        //     Document document = iterator.next();
+        //     long test=id;
+        //     if(test==(long)document.get("id")){
+        //         DeleteResult result =collection.deleteOne(document);
+        //         return result;
+                
+        //     }
+           
+        // }
+        // return null;
+
+
+        DeleteResult result = collection.deleteOne(Filters.eq("id",id));
+        return result;
     }
     
 }
