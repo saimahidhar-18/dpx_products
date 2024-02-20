@@ -26,26 +26,48 @@ public class Dpxresource2 {
     Dpxservice1 dpxservice1=new Dpxservice1();
 
     @GET
-    public List<Product> getProducts(){
-        return dpxservice1.getAllProducts();
+    public Response getProducts(){
+        try{
+            List<Product> products = dpxservice1.getAllProducts();
+            if(products.size()==0)
+                return Response.ok("products collection is empty").build();
+            else
+                return Response.ok(products).build();
+        }
+        catch (MongoException e) {
+            
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Error getting the products.").build();
+        }
+        
     }
     
     @POST
-    public Product addProduct(Product product){
-        return dpxservice1.addProduct(product);
+    public Response addProduct(Product product){
+        try{
+            Product p = dpxservice1.addProduct(product);
+            return Response.ok(p).build();
+        }
+        catch (MongoException e) {
+            
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Error deleting the product.").build();
+        }
     }
 
 
     @GET
     @Path("/{productid}")
     public Response getProduct(@PathParam("productid") long id){
-        Product product = dpxservice1.getProduct(id);
-        if (product != null) {
-            // If the product is found, return it
-            return Response.ok(product).build();
-        } else {
-            // If the product is not found, return a response with no content (204 No Content)
-            return Response.status(Response.Status.NOT_FOUND).entity("The Product id is invalid!").build();
+        try{
+            Product product = dpxservice1.getProduct(id);
+            if (product != null) 
+                return Response.ok(product).build();
+            else 
+                return Response.status(Response.Status.NOT_FOUND).entity("The Product id is invalid!").build();
+            
+        }
+        catch (MongoException e) {
+            
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Error in adding the product.").build();
         }
     }
 
@@ -53,16 +75,21 @@ public class Dpxresource2 {
     @Path("/{productId}")
     public Response updateProduct (@PathParam("productId") long id, Product product) {
         product.setId(id);
-        UpdateResult result = dpxservice1.updateProduct(product);
-        if(result.wasAcknowledged()){
-            if(result.getMatchedCount()==0){
-                return Response.status(Response.Status.NOT_FOUND).entity("The Product id is invalid!").build();
-
+        try{
+            UpdateResult result = dpxservice1.updateProduct(product);
+            if(result.wasAcknowledged()){
+                if(result.getMatchedCount()==0)
+                    return Response.status(Response.Status.NOT_FOUND).entity("The Product id is invalid!").build();
+                else 
+                    return Response.ok(product).build();
             }
-            else return Response.ok(product).build();
+            else{
+                return Response.status(Response.Status.NOT_MODIFIED).entity("Server couldn't acknowledge the update operation.").build();
+            }
         }
-        else{
-            return Response.status(Response.Status.NOT_MODIFIED).entity("Server couldn't acknowledge the update operation.").build();
+        catch (MongoException e) {
+            
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Error updatinging the product.").build();
         }
     }
 

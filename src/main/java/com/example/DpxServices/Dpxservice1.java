@@ -56,23 +56,44 @@ public class Dpxservice1 {
     }
     public Product getProduct(long id){
 
-        FindIterable<Document> findIterable = collection.find();
-        Iterator<Document> iterator = findIterable.iterator();
-        while (iterator.hasNext()){
-            Document document = iterator.next();
-            long test=id;
-            if(test==(long)document.get("id")){
-                //=(long)document.get("id");
-                String name=document.get("name").toString();
-                String author=document.get("author").toString();
-                Product p1=new Product(test,name,null, null, null,author, null);
-                //System.out.println(p1.getAuthor() + " product author");
+        // FindIterable<Document> findIterable = collection.find();
+        // Iterator<Document> iterator = findIterable.iterator();
+        // while (iterator.hasNext()){
+        //     Document document = iterator.next();
+        //     long test=id;
+        //     if(test==(long)document.get("id")){
+        //         //=(long)document.get("id");
+        //         String name=document.get("name").toString();
+        //         String author=document.get("author").toString();
+        //         Product p1=new Product(test,name,null, null, null,author, null);
+        //         //System.out.println(p1.getAuthor() + " product author");
 
-                return p1;
-            }
+        //         return p1;
+        //     }
+        // }
+        // return null;
+
+//-----------------------------------------------------------------------------------------
+
+        Document document = collection.find(Filters.eq("id", id)).first();
+
+        if(document!=null){
+            String name = document.getString("name");
+            String description = document.getString("description");
+            String domain = document.getString("domain");
+            String status = document.getString("status");
+            String author = document.getString("author");
+            //List<Document> urls = document.getList("urls", Document.class);
+
+
+
+            Product P = new Product(id,name,description,domain,status,author,null);
+            return P;
         }
         return null;
+        
     }
+
     public Product addProduct(Product product){
         
             product.setId((long)collection.countDocuments()+100+1);
@@ -83,7 +104,6 @@ public class Dpxservice1 {
             collection.insertOne(document);
             System.out.println("Document inserted successfully.");
 
-            //products.put(product.getId(),product);
             return product;
     }
 
@@ -93,8 +113,27 @@ public class Dpxservice1 {
 
         UpdateResult result = collection.updateOne(Filters.eq("id",(Object)product.getId()),Updates.set("name",(Object)product.getName()));
         System.out.println("Document updated successfully.");
-  
+
         return result;
+
+
+//---------------------------------------------------------------------------------------
+        //**Update For all fields**
+
+        // UpdateResult result = collection.updateOne(
+        //     Filters.eq("id", product.getId()),
+        //     Updates.combine(
+        //         Updates.set("name", product.getName()),
+        //         Updates.set("description", product.getDescription()),
+        //         Updates.set("domain", product.getDomain()),
+        //         Updates.set("status", product.getStatus()),
+        //         Updates.set("author", product.getAuthor()),
+        //         Updates.set("urls", product.getUrls())
+        //         // Add more updates for other fields as needed
+        //     )
+        // );
+
+        // return result;
     }
 
 
@@ -114,7 +153,7 @@ public class Dpxservice1 {
            
         // }
         // return null;
-
+//-----------------------------------------------------------------------------
 
         DeleteResult result = collection.deleteOne(Filters.eq("id",id));
         return result;
