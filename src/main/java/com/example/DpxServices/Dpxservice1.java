@@ -1,18 +1,18 @@
 package com.example.DpxServices;
 
 import java.util.ArrayList;
-import java.util.Collection;
+//import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
+//import java.util.Map;
 
 import org.bson.Document;
 import org.bson.types.ObjectId;
 
-import com.example.Databases.Databaseclass;
+//import com.example.Databases.Databaseclass;
 import com.example.DpxModel.Product;
-import com.mongodb.BasicDBObject;
-import com.mongodb.DBObject;
+//import com.mongodb.BasicDBObject;
+//import com.mongodb.DBObject;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
@@ -23,7 +23,7 @@ import com.mongodb.client.model.Updates;
 import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.UpdateResult;
 
-import org.bson.types.ObjectId;
+//import org.bson.types.ObjectId;
 
 public class Dpxservice1 {
     

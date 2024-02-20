@@ -2,6 +2,7 @@ package com.example.DpxResources;
 
 import java.util.List;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -42,6 +43,7 @@ public class Dpxresource2 {
     }
     
     @POST
+    @RolesAllowed("producer")
     public Response addProduct(Product product){
         try{
             Product p = dpxservice1.addProduct(product);
