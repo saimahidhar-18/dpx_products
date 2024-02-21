@@ -7,6 +7,7 @@ import java.util.List;
 //import java.util.Map;
 
 import org.bson.Document;
+import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 
 //import com.example.Databases.Databaseclass;
@@ -47,7 +48,12 @@ public class Dpxservice1 {
             long id=(long)document.get("id");
             String name=document.get("name").toString();
             String author=document.get("author").toString();
-            Product m1=new Product(id,name,null, null, null,author, null);
+            String description=document.get("description").toString();
+            String domain=document.get("domain").toString();
+            String status=document.get("status").toString();
+
+
+            Product m1=new Product(id,name,description,domain,status,author, null);
             list.add(m1);
         }
 
@@ -83,10 +89,8 @@ public class Dpxservice1 {
             String domain = document.getString("domain");
             String status = document.getString("status");
             String author = document.getString("author");
+
             //List<Document> urls = document.getList("urls", Document.class);
-
-
-
             Product P = new Product(id,name,description,domain,status,author,null);
             return P;
         }
@@ -100,7 +104,12 @@ public class Dpxservice1 {
     
             Document document = new Document("id", product.getId())
                     .append("name", product.getName())
+                    .append("description", product.getDescription())
+                    .append("domain", product.getDomain())
+                    .append("status", product.getStatus())
                     .append("author", product.getAuthor());
+                   
+
             collection.insertOne(document);
             System.out.println("Document inserted successfully.");
 
@@ -156,6 +165,27 @@ public class Dpxservice1 {
 //-----------------------------------------------------------------------------
 
         DeleteResult result = collection.deleteOne(Filters.eq("id",id));
+        return result;
+    }
+    public DeleteResult deleteAll(){
+            
+        // FindIterable<Document> findIterable = collection.find();
+        // // Getting the iterator
+        // Iterator<Document> iterator = findIterable.iterator();      
+        // while (iterator.hasNext()){
+        //     Document document = iterator.next();
+        //     long test=id;
+        //     if(test==(long)document.get("id")){
+        //         DeleteResult result =collection.deleteOne(document);
+        //         return result;
+                
+        //     }
+           
+        // }
+        // return null;
+//-----------------------------------------------------------------------------
+
+        DeleteResult result = collection.deleteMany(new Document());
         return result;
     }
     

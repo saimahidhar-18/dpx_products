@@ -51,7 +51,7 @@ public class Dpxresource2 {
         }
         catch (MongoException e) {
             
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Error deleting the product.").build();
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Error creating the product.").build();
         }
     }
 
@@ -69,7 +69,7 @@ public class Dpxresource2 {
         }
         catch (MongoException e) {
             
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Error in adding the product.").build();
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Error in getting the product.").build();
         }
     }
 
@@ -95,7 +95,22 @@ public class Dpxresource2 {
         }
     }
 
-    
+    @DELETE
+    public Response deleteAllMessage() {
+        try {
+            DeleteResult result = dpxservice1.deleteAll();
+            if (result.getDeletedCount() == 0) 
+                return Response.status(Response.Status.NO_CONTENT).entity("collection is empty").build();             
+            else 
+                return Response.ok("Deletion successful.").build();            
+        } 
+        catch (MongoException e) {
+            
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Error deleting the products.").build();
+        }
+
+    }
+
     @DELETE
     @Path("/{productId}")
     public Response deleteMessage(@PathParam("productId") long id) {
@@ -112,5 +127,6 @@ public class Dpxresource2 {
         }
 
     }
+    
 
 }
