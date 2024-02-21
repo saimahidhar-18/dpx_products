@@ -51,6 +51,13 @@
     <dependencies>
 
         <dependency>
+            <groupId>org.mindrot</groupId>
+            <artifactId>jbcrypt</artifactId>
+            <version>0.4</version>
+        </dependency>
+
+
+        <dependency>
             <groupId>org.mongodb</groupId>
             <artifactId>bson</artifactId>
             <version>5.0.0-beta0</version>
