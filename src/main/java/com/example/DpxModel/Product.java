@@ -12,27 +12,31 @@ public class Product {
     private String domain;
     private Date date;
     private String status;
-    private String author;
+    
     private List<String> urls;
+    private List<String> users;
+
     public Product(){
     }
-    public Product(long id, String name, String description, String domain, String status, String author,
-            List<String> urls) {
+    public Product(long id, String name, String description, String domain, String status,
+            List<String> urls, List<String> list) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.domain = domain;
         this.date = new Date();
         this.status = status;
-        this.author = author;
+       
         this.urls = urls;
+        this.users= list;
     }
-    public String getAuthor() {
-        return author;
-    }
-    public void setAuthor(String Author) {
-        this.author = Author;
-    }
+    
+    // public String getAuthor() {
+    //     return author;
+    // }
+    // public void setAuthor(String Author) {
+    //     this.author = Author;
+    //}
     public List<String> getUrls() {
         return urls;
     }
@@ -74,5 +78,11 @@ public class Product {
     }
     public void setStatus(String Status) {
         this.status = Status;
+    }
+    public List<String> getUsers() {
+        return users;
+    }
+    public void setUsers(List<String> users) {
+        this.users = users;
     }
 }

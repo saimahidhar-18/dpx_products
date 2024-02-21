@@ -1,10 +1,9 @@
 package com.example.DpxServices;
 
-import java.util.ArrayList;
-//import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
+
+import java.util.*;
 //import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.bson.Document;
 import org.bson.types.ObjectId;
@@ -27,13 +26,47 @@ import com.mongodb.client.result.UpdateResult;
 
 public class Dpxservice1 {
     
+    
 
     private static final String CONNECTION_STRING = "mongodb://localhost:27017";
     MongoClient mongoClient = MongoClients.create(CONNECTION_STRING);
     MongoDatabase database = mongoClient.getDatabase("data_products");
     MongoCollection<Document> collection = database.getCollection("products");
 
-    //private static Map<Long,Product> products =Databaseclass.getProducts();
+    public Dpxservice1(){
+        if(collection.countDocuments()==0){
+            Document prod1 = new Document("id",111L)
+            .append("name", "pd1")
+            .append("description", "for use")
+            .append("domain", "Education")
+            .append("date", new Date())
+            .append("status", "published")
+            .append("urls", Arrays.asList("url1", "url2"))
+            .append("users", Arrays.asList("Harry","Ron"));
+
+            Document prod2 = new Document("id",112L)
+            .append("name", "pd2")
+            .append("description", "for use")
+            .append("domain", "Education")
+            .append("date", new Date())
+            .append("status", "published")
+            .append("urls", Arrays.asList("url1", "url2"))
+            .append("users", Arrays.asList("Harry","Hermoine"));
+
+            Document prod3 = new Document("id",113L)
+            .append("name", "pd3")
+            .append("description", "for use")
+            .append("domain", "Education")
+            .append("date", new Date())
+            .append("status", "published")
+            .append("urls", Arrays.asList("url1", "url2"))
+            .append("users", Arrays.asList("Harry","Ron","Hermoine"));
+
+            collection.insertOne(prod1);
+            collection.insertOne(prod2);
+            collection.insertOne(prod3);
+        }
+    }
 
     public List<Product> getAllProducts(){
         
@@ -44,10 +77,14 @@ public class Dpxservice1 {
         while (iterator.hasNext()){
             Document document = iterator.next();
 
-            long id=(long)document.get("id");
-            String name=document.get("name").toString();
-            String author=document.get("author").toString();
-            Product m1=new Product(id,name,null, null, null,author, null);
+            long id = document.getLong("id");
+            String name = document.getString("name");
+            String desc = document.getString("description");
+            String domain = document.getString("domain");
+            String status = document.getString("status");
+            List<String> urls = document.getList("urls", String.class);
+            List<String> users =document.getList("users", String.class);
+            Product m1=new Product(id,name,desc, domain, status,urls,users);
             list.add(m1);
         }
 
@@ -87,7 +124,7 @@ public class Dpxservice1 {
 
 
 
-            Product P = new Product(id,name,description,domain,status,author,null);
+            Product P = new Product(id,name,description,domain,status,null,null);
             return P;
         }
         return null;
@@ -99,8 +136,8 @@ public class Dpxservice1 {
             product.setId((long)collection.countDocuments()+100+1);
     
             Document document = new Document("id", product.getId())
-                    .append("name", product.getName())
-                    .append("author", product.getAuthor());
+                    .append("name", product.getName());
+                  //  .append("author", product.getAuthor());
             collection.insertOne(document);
             System.out.println("Document inserted successfully.");
 

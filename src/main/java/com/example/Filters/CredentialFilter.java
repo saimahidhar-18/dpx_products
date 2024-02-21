@@ -5,6 +5,8 @@ import java.util.Base64;
 import java.util.List;
 
 import javax.annotation.Priority;
+import javax.inject.Singleton;
+import javax.ws.rs.Path;
 import javax.ws.rs.Priorities;
 import javax.ws.rs.container.ContainerRequestContext;
 //import javax.ws.rs.container.ContainerRequestFilter;
@@ -19,9 +21,11 @@ import com.example.DpxServices.CredentialServices;
 
 @Provider
 @Priority(Priorities.AUTHENTICATION)
+// @Path("/filter-resource")
+// @Singleton
 public class CredentialFilter implements ContainerResponseFilter{
 
-    CredentialServices credentialServices = new CredentialServices();
+    public final CredentialServices credentialServices = new CredentialServices();
 
 
 
