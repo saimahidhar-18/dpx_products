@@ -108,7 +108,7 @@ public class Dpxservice1 {
                     .append("domain", product.getDomain())
                     .append("status", product.getStatus())
                     .append("author", product.getAuthor());
-                   
+                    //.append("data",product.getdata());
 
             collection.insertOne(document);
             System.out.println("Document inserted successfully.");
