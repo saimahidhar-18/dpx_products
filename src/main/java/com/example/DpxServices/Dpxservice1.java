@@ -112,23 +112,6 @@ public class Dpxservice1 {
         return null;
 
 
-            // FindIterable<Document> findIterable = collection.find();
-        // Iterator<Document> iterator = findIterable.iterator();
-        // while (iterator.hasNext()){
-        //     Document document = iterator.next();
-        //     long test=id;
-        //     if(test==(long)document.get("id")){
-        //         //=(long)document.get("id");
-        //         String name=document.get("name").toString();
-        //         String author=document.get("author").toString();
-        //         Product p1=new Product(test,name,null, null, null,author, null);
-        //         //System.out.println(p1.getAuthor() + " product author");
-
-        //         return p1;
-        //     }
-        // }
-        // return null;
-
         
     }
 
@@ -168,12 +151,6 @@ public class Dpxservice1 {
 
         return result;
 
-        // UpdateResult result = collection.updateOne(Filters.eq("id",(Object)product.getId()),Updates.set("name",(Object)product.getName()));
-        // System.out.println("Document updated successfully.");
-
-        // return result;
-
-        
     }
 
 
