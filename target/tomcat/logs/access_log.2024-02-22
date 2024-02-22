@@ -1,2 +1,0 @@
-0:0:0:0:0:0:0:1 - - [22/Feb/2024:11:21:07 +0530] "GET /dpx/webapi/data_products HTTP/1.1" 200 674 http-bio-9090-exec-2 707
-0:0:0:0:0:0:0:1 - - [22/Feb/2024:11:23:20 +0530] "GET /dpx/webapi/data_products/111 HTTP/1.1" 200 175 http-bio-9090-exec-5 52
