@@ -5,8 +5,8 @@ import java.util.Base64;
 import java.util.List;
 
 import javax.annotation.Priority;
-import javax.inject.Singleton;
-import javax.ws.rs.Path;
+// import javax.inject.Singleton;
+// import javax.ws.rs.Path;
 import javax.ws.rs.Priorities;
 import javax.ws.rs.container.ContainerRequestContext;
 //import javax.ws.rs.container.ContainerRequestFilter;
@@ -14,7 +14,7 @@ import javax.ws.rs.container.ContainerResponseContext;
 import javax.ws.rs.container.ContainerResponseFilter;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.SecurityContext;
+//import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.ext.Provider;
 
 import com.example.DpxServices.CredentialServices;
@@ -48,16 +48,9 @@ public class CredentialFilter implements ContainerResponseFilter{
                 String userRole = credentialServices.getUserRole(username);
 
 
-                // Add role information to the response header
+               
                 MultivaluedMap<String, Object> headers = responseContext.getHeaders();
-                headers.add("UserRole", userRole);
-
-                
-                // SecurityContext securityContext = requestContext.getSecurityContext();
-                // requestContext.setSecurityContext(new CustomSecurityContext(username, userRole, securityContext));
-
-
-                
+                headers.add("UserRole", userRole);   
                 
                 return ;
             }
@@ -66,6 +59,7 @@ public class CredentialFilter implements ContainerResponseFilter{
         Response unauthorizedStatus = Response.status(Response.Status.UNAUTHORIZED).entity("User cannot access the resource").build();
 
         requestContext.abortWith(unauthorizedStatus);
+        //return;
 
     }
     

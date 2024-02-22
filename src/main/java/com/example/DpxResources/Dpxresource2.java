@@ -26,7 +26,7 @@ import com.mongodb.client.result.UpdateResult;
 @Produces(MediaType.APPLICATION_JSON)
 public class Dpxresource2 {
 
-    
+
     Dpxservice1 dpxservice1=new Dpxservice1();
     // private final CredentialFilter credfilter;
 
@@ -51,7 +51,7 @@ public class Dpxresource2 {
     }
     
     @POST
-    @RolesAllowed("producer")
+   // @RolesAllowed("producer")
     public Response addProduct(Product product){
         try{
             Product p = dpxservice1.addProduct(product);

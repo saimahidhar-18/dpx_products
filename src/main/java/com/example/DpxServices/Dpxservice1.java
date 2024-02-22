@@ -93,7 +93,26 @@ public class Dpxservice1 {
     }
     public Product getProduct(long id){
 
-        // FindIterable<Document> findIterable = collection.find();
+        Document document = collection.find(Filters.eq("id", id)).first();
+
+        if(document!=null){
+            String name = document.getString("name");
+            String description = document.getString("description");
+            String domain = document.getString("domain");
+            String status = document.getString("status");
+            List<String> urls = document.getList("urls", String.class);
+            List<String> users =document.getList("users", String.class);
+            //List<Document> urls = document.getList("urls", Document.class);
+
+
+
+            Product P = new Product(id,name,description,domain,status,urls,users);
+            return P;
+        }
+        return null;
+
+
+            // FindIterable<Document> findIterable = collection.find();
         // Iterator<Document> iterator = findIterable.iterator();
         // while (iterator.hasNext()){
         //     Document document = iterator.next();
@@ -110,34 +129,20 @@ public class Dpxservice1 {
         // }
         // return null;
 
-//-----------------------------------------------------------------------------------------
-
-        Document document = collection.find(Filters.eq("id", id)).first();
-
-        if(document!=null){
-            String name = document.getString("name");
-            String description = document.getString("description");
-            String domain = document.getString("domain");
-            String status = document.getString("status");
-            String author = document.getString("author");
-            //List<Document> urls = document.getList("urls", Document.class);
-
-
-
-            Product P = new Product(id,name,description,domain,status,null,null);
-            return P;
-        }
-        return null;
         
     }
 
     public Product addProduct(Product product){
         
-            product.setId((long)collection.countDocuments()+100+1);
+            product.setId((long)collection.countDocuments()+111);
     
             Document document = new Document("id", product.getId())
-                    .append("name", product.getName());
-                  //  .append("author", product.getAuthor());
+                    .append("name", product.getName())
+                    .append("domain", product.getDomain())
+                    .append("status", product.getStatus())
+                    .append("description", product.getDescription());
+                    // .append("urls", product.getUrls())
+                    // .append("users", product.getUsers());
             collection.insertOne(document);
             System.out.println("Document inserted successfully.");
 
@@ -148,52 +153,43 @@ public class Dpxservice1 {
     public UpdateResult updateProduct(Product product){
         if(product.getId()<=0) return null;
 
-        UpdateResult result = collection.updateOne(Filters.eq("id",(Object)product.getId()),Updates.set("name",(Object)product.getName()));
-        System.out.println("Document updated successfully.");
+        UpdateResult result = collection.updateOne(
+            Filters.eq("id", product.getId()),
+            Updates.combine(
+                Updates.set("name", product.getName()),
+                Updates.set("description", product.getDescription()),
+                Updates.set("domain", product.getDomain()),
+                Updates.set("status", product.getStatus()),
+                Updates.set("users", product.getUsers()),
+                Updates.set("urls", product.getUrls())
+                
+            )
+        );
 
         return result;
 
-
-//---------------------------------------------------------------------------------------
-        //**Update For all fields**
-
-        // UpdateResult result = collection.updateOne(
-        //     Filters.eq("id", product.getId()),
-        //     Updates.combine(
-        //         Updates.set("name", product.getName()),
-        //         Updates.set("description", product.getDescription()),
-        //         Updates.set("domain", product.getDomain()),
-        //         Updates.set("status", product.getStatus()),
-        //         Updates.set("author", product.getAuthor()),
-        //         Updates.set("urls", product.getUrls())
-        //         // Add more updates for other fields as needed
-        //     )
-        // );
+        // UpdateResult result = collection.updateOne(Filters.eq("id",(Object)product.getId()),Updates.set("name",(Object)product.getName()));
+        // System.out.println("Document updated successfully.");
 
         // return result;
+
+        
     }
 
 
     public DeleteResult removeProduct(long id){
             
-        // FindIterable<Document> findIterable = collection.find();
-        // // Getting the iterator
-        // Iterator<Document> iterator = findIterable.iterator();      
-        // while (iterator.hasNext()){
-        //     Document document = iterator.next();
-        //     long test=id;
-        //     if(test==(long)document.get("id")){
-        //         DeleteResult result =collection.deleteOne(document);
-        //         return result;
-                
-        //     }
-           
-        // }
-        // return null;
-//-----------------------------------------------------------------------------
-
-        DeleteResult result = collection.deleteOne(Filters.eq("id",id));
-        return result;
+       
+        Document document = collection.find(Filters.eq("id", id)).first();
+        if(document!=null){
+            List<String> users =document.getList("users", String.class);
+            if(users.size()<2){
+                DeleteResult result = collection.deleteOne(Filters.eq("id",id)); 
+                return result;
+            }
+        }
+        return null;
+        
     }
     
 }
