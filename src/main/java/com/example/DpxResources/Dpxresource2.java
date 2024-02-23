@@ -20,6 +20,8 @@ import com.mongodb.MongoException;
 import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.UpdateResult;
 
+
+
 @Path("/data_products")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
@@ -63,8 +65,21 @@ public class Dpxresource2 {
             Product product = dpxservice1.getProduct(id);
             if (product != null) 
                 return Response.ok(product).build();
-            else 
-                return Response.status(Response.Status.NOT_FOUND).entity("The Product id is invalid!").build();
+            else {
+                ErrorResponse errorResponse = new ErrorResponse("The Product id is invalid!");
+                return Response.status(Response.Status.BAD_REQUEST).entity(errorResponse).build();
+                //     ErrorResponse errorResponse = new ErrorResponse();
+                // //errorResponse.setCode(Response.Status.NOT_FOUND.getStatusCode());
+                // errorResponse.setMessage("Error getting the product.");
+                // errorResponse.setMessage2("Error getting the product2.");
+
+        
+                // return Response.status(Response.Status.NOT_FOUND)
+                //         .entity(errorResponse)
+                //         .build();
+               // return Response.status(Response.Status.NOT_FOUND).entity("The Product id is invalid!").build();
+            }
+               
             
         }
         catch (MongoException e) {
@@ -128,5 +143,15 @@ public class Dpxresource2 {
 
     }
     
+    private static class ErrorResponse {
+        private String message="good";
 
+        public ErrorResponse(String message) {
+            this.message = message;
+        }
+
+        public String getMessage() {
+            return message;
+        }
+    }
 }
