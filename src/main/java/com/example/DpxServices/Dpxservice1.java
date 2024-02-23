@@ -171,15 +171,8 @@ public class Dpxservice1 {
     public DeleteResult deleteAll(){
             
        
-        Document document = collection.find(Filters.eq("id", id)).first();
-        if(document!=null){
-            List<String> users =document.getList("users", String.class);
-            if(users.size()<2){
-                DeleteResult result = collection.deleteOne(Filters.eq("id",id)); 
-                return result;
-            }
-        }
-        return null;
+        DeleteResult result = collection.deleteMany(new Document());
+        return result;
         
     }
     
