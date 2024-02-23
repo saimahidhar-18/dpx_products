@@ -14,14 +14,14 @@ public class Product {
     private String status;
     private String author;
    // private List<String> urls;
-    private List<DataList> dataLists;
+    private List<DataList> dataList;
     private List<String> users;
 
     public Product(){
     }
     
     public Product(long id, String name, String description, String domain, String status,
-            String author, List<String> users) {
+            String author, List<String> users,List<DataList>dataList) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -30,6 +30,7 @@ public class Product {
         this.status = status;
        
        // this.urls = urls;
+       this.dataList=dataList;
         this.users= users;
     }
     
@@ -88,9 +89,9 @@ public class Product {
         this.users = users;
     }
     public List<DataList> getDataLists() {
-        return dataLists;
+        return dataList;
     }
-    public void setDataLists(List<DataList> dataLists) {
-        this.dataLists = dataLists;
+    public void setDataLists(List<DataList> dataList) {
+        this.dataList = dataList;
     }
 }

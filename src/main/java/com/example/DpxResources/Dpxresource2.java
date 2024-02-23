@@ -74,18 +74,18 @@ public class Dpxresource2 {
             if (product != null) 
                 return Response.ok(product).build();
             else {
-                ErrorResponse errorResponse = new ErrorResponse("The Product id is invalid!");
-                return Response.status(Response.Status.BAD_REQUEST).entity(errorResponse).build();
-                //     ErrorResponse errorResponse = new ErrorResponse();
-                // //errorResponse.setCode(Response.Status.NOT_FOUND.getStatusCode());
-                // errorResponse.setMessage("Error getting the product.");
-                // errorResponse.setMessage2("Error getting the product2.");
+                // ErrorResponse errorResponse = new ErrorResponse("The Product id is invalid!");
+                // return Response.status(Response.Status.BAD_REQUEST).entity(errorResponse).build();
+                // //     ErrorResponse errorResponse = new ErrorResponse();
+                // // //errorResponse.setCode(Response.Status.NOT_FOUND.getStatusCode());
+                // // errorResponse.setMessage("Error getting the product.");
+                // // errorResponse.setMessage2("Error getting the product2.");
 
         
-                // return Response.status(Response.Status.NOT_FOUND)
-                //         .entity(errorResponse)
-                //         .build();
-               // return Response.status(Response.Status.NOT_FOUND).entity("The Product id is invalid!").build();
+                // // return Response.status(Response.Status.NOT_FOUND)
+                // //         .entity(errorResponse)
+                // //         .build();
+               return Response.status(Response.Status.NOT_FOUND).entity("The Product id is invalid!").build();
             }
                
             

@@ -83,6 +83,7 @@ public class Dpxservice1 {
             String status = document.getString("status");
             String author = document.getString("author");
             List<String> users =document.getList("users", String.class);
+            
             Product m1=new Product(id,name,desc, domain, status,author,users);
             list.add(m1);
         }
