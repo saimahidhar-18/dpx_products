@@ -51,7 +51,7 @@ public class Dpxresource2 {
         }
         catch (MongoException e) {
             
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Error deleting the product.").build();
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Error creating the product.").build();
         }
     }
 
@@ -69,7 +69,7 @@ public class Dpxresource2 {
         }
         catch (MongoException e) {
             
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Error in adding the product.").build();
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Error in getting the product.").build();
         }
     }
 

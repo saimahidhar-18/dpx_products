@@ -13,11 +13,11 @@ public class Product {
     private Date date;
     private String status;
     private String author;
-    private List<String> urls;
+    private List<List<String>>data;
     public Product(){
     }
     public Product(long id, String name, String description, String domain, String status, String author,
-            List<String> urls) {
+    List<List<String>>data) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -25,7 +25,7 @@ public class Product {
         this.date = new Date();
         this.status = status;
         this.author = author;
-        this.urls = urls;
+        this.data = data;
     }
     public String getAuthor() {
         return author;
@@ -33,11 +33,11 @@ public class Product {
     public void setAuthor(String Author) {
         this.author = Author;
     }
-    public List<String> getUrls() {
-        return urls;
+    public List<List<String>>  getdata() {
+        return data;
     }
-    public void setUrls(List<String> urls) {
-        this.urls = urls;
+    public void setdata(List<List<String>> data) {
+        this.data = data;
     }
     public long getId() {
         return id;
