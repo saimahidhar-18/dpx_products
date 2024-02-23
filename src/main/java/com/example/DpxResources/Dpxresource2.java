@@ -16,6 +16,7 @@ import javax.ws.rs.core.Response;
 
 import com.example.DpxModel.Product;
 import com.example.DpxServices.Dpxservice1;
+import com.example.Filters.CredentialFilter;
 import com.mongodb.MongoException;
 import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.UpdateResult;
@@ -24,7 +25,14 @@ import com.mongodb.client.result.UpdateResult;
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class Dpxresource2 {
+
+
     Dpxservice1 dpxservice1=new Dpxservice1();
+    // private final CredentialFilter credfilter;
+
+    // public Dpxresource2(CredentialFilter credfilter){
+    //     this.credfilter=credfilter;
+    // }
 
     @GET
     public Response getProducts(){
@@ -43,7 +51,7 @@ public class Dpxresource2 {
     }
     
     @POST
-    @RolesAllowed("producer")
+   // @RolesAllowed("producer")
     public Response addProduct(Product product){
         try{
             Product p = dpxservice1.addProduct(product);
@@ -51,7 +59,7 @@ public class Dpxresource2 {
         }
         catch (MongoException e) {
             
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Error creating the product.").build();
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Error deleting the product.").build();
         }
     }
 
@@ -69,7 +77,7 @@ public class Dpxresource2 {
         }
         catch (MongoException e) {
             
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Error in getting the product.").build();
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Error in adding the product.").build();
         }
     }
 
@@ -111,6 +119,11 @@ public class Dpxresource2 {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Error deleting the product.").build();
         }
 
+    }
+
+    @Path("/{productid}/datalist")
+    public DataListResource getDataList(){
+        return new DataListResource();
     }
 
 }
