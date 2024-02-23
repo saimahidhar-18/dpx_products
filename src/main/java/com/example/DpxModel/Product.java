@@ -12,14 +12,16 @@ public class Product {
     private String domain;
     private Date date;
     private String status;
-    
-    private List<String> urls;
+    private String author;
+   // private List<String> urls;
+    private List<DataList> dataLists;
     private List<String> users;
 
     public Product(){
     }
+    
     public Product(long id, String name, String description, String domain, String status,
-            List<String> urls, List<String> list) {
+            String author, List<String> users) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -27,22 +29,22 @@ public class Product {
         this.date = new Date();
         this.status = status;
        
-        this.urls = urls;
-        this.users= list;
+       // this.urls = urls;
+        this.users= users;
     }
     
-    // public String getAuthor() {
-    //     return author;
+    public String getAuthor() {
+        return author;
+    }
+    public void setAuthor(String Author) {
+        this.author = Author;
+    }
+    // public List<String> getUrls() {
+    //     return urls;
     // }
-    // public void setAuthor(String Author) {
-    //     this.author = Author;
-    //}
-    public List<String> getUrls() {
-        return urls;
-    }
-    public void setUrls(List<String> urls) {
-        this.urls = urls;
-    }
+    // public void setUrls(List<String> urls) {
+    //     this.urls = urls;
+    // }
     public long getId() {
         return id;
     }
@@ -84,5 +86,11 @@ public class Product {
     }
     public void setUsers(List<String> users) {
         this.users = users;
+    }
+    public List<DataList> getDataLists() {
+        return dataLists;
+    }
+    public void setDataLists(List<DataList> dataLists) {
+        this.dataLists = dataLists;
     }
 }

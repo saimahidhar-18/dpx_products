@@ -121,4 +121,9 @@ public class Dpxresource2 {
 
     }
 
+    @Path("/{productid}/datalist")
+    public DataListResource getDataList(){
+        return new DataListResource();
+    }
+
 }

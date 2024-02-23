@@ -2,16 +2,12 @@ package com.example.DpxServices;
 
 
 import java.util.*;
-//import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.bson.Document;
 import org.bson.types.ObjectId;
-
-//import com.example.Databases.Databaseclass;
 import com.example.DpxModel.Product;
-//import com.mongodb.BasicDBObject;
-//import com.mongodb.DBObject;
+
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
@@ -22,7 +18,6 @@ import com.mongodb.client.model.Updates;
 import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.UpdateResult;
 
-//import org.bson.types.ObjectId;
 
 public class Dpxservice1 {
     
@@ -41,7 +36,8 @@ public class Dpxservice1 {
             .append("domain", "Education")
             .append("date", new Date())
             .append("status", "published")
-            .append("urls", Arrays.asList("url1", "url2"))
+            .append("author", "harry")
+            .append("dataList", Arrays.asList("url1", "url2"))
             .append("users", Arrays.asList("Harry","Ron"));
 
             Document prod2 = new Document("id",112L)
@@ -50,7 +46,8 @@ public class Dpxservice1 {
             .append("domain", "Education")
             .append("date", new Date())
             .append("status", "published")
-            .append("urls", Arrays.asList("url1", "url2"))
+            .append("author","Harry")
+            .append("dataList", Arrays.asList("url1", "url2"))
             .append("users", Arrays.asList("Harry","Hermoine"));
 
             Document prod3 = new Document("id",113L)
@@ -59,7 +56,8 @@ public class Dpxservice1 {
             .append("domain", "Education")
             .append("date", new Date())
             .append("status", "published")
-            .append("urls", Arrays.asList("url1", "url2"))
+            .append("author", "Harry")
+            .append("dataList", Arrays.asList("url1", "url2"))
             .append("users", Arrays.asList("Harry","Ron","Hermoine"));
 
             collection.insertOne(prod1);
@@ -82,9 +80,9 @@ public class Dpxservice1 {
             String desc = document.getString("description");
             String domain = document.getString("domain");
             String status = document.getString("status");
-            List<String> urls = document.getList("urls", String.class);
+            String author = document.getString("author");
             List<String> users =document.getList("users", String.class);
-            Product m1=new Product(id,name,desc, domain, status,urls,users);
+            Product m1=new Product(id,name,desc, domain, status,author,users);
             list.add(m1);
         }
 
@@ -100,13 +98,14 @@ public class Dpxservice1 {
             String description = document.getString("description");
             String domain = document.getString("domain");
             String status = document.getString("status");
-            List<String> urls = document.getList("urls", String.class);
+            String author = document.getString("author");
+            //List<String> urls = document.getList("urls", String.class);
             List<String> users =document.getList("users", String.class);
             //List<Document> urls = document.getList("urls", Document.class);
 
 
 
-            Product P = new Product(id,name,description,domain,status,urls,users);
+            Product P = new Product(id,name,description,domain,status,author,users);
             return P;
         }
         return null;
@@ -143,8 +142,8 @@ public class Dpxservice1 {
                 Updates.set("description", product.getDescription()),
                 Updates.set("domain", product.getDomain()),
                 Updates.set("status", product.getStatus()),
-                Updates.set("users", product.getUsers()),
-                Updates.set("urls", product.getUrls())
+                Updates.set("users", product.getUsers())
+               // Updates.set("urls", product.getUrls())
                 
             )
         );
