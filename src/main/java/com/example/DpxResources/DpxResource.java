@@ -15,7 +15,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import com.example.DpxModel.Product;
-import com.example.DpxServices.Dpxservice1;
+import com.example.DpxServices.DpxServices;
 import com.example.Filters.CredentialFilter;
 import com.mongodb.MongoException;
 import com.mongodb.client.result.DeleteResult;
@@ -26,10 +26,10 @@ import com.mongodb.client.result.UpdateResult;
 @Path("/data_products")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
-public class Dpxresource2 {
+public class DpxResource {
 
 
-    Dpxservice1 dpxservice1=new Dpxservice1();
+    DpxServices dpxservice1=new DpxServices();
     // private final CredentialFilter credfilter;
 
     // public Dpxresource2(CredentialFilter credfilter){
