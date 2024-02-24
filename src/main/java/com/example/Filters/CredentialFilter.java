@@ -17,7 +17,7 @@ import javax.ws.rs.core.Response;
 //import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.ext.Provider;
 
-import com.example.DpxServices.CredentialServices;
+import com.example.services.CredentialServices;
 
 @Provider
 @Priority(Priorities.AUTHENTICATION)
