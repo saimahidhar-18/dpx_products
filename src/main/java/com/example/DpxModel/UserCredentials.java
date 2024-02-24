@@ -8,15 +8,17 @@ public class UserCredentials {
     private String username;
     private String password;
     private String role;
+    private String session;
 
     public UserCredentials(){
 
     }
 
-    public UserCredentials(String username, String password, String role) {
+    public UserCredentials(String username, String password, String role,String session) {
         this.username = username;
         this.password = password;
         this.role = role;
+        this.session=session;
     }
 
     public String getUsername() {
@@ -43,7 +45,12 @@ public class UserCredentials {
         this.role = role;
     }
 
-    
+    public String getSession(){
+        return session;
+    }
+    public void setSession(String session){
+        this.session=session;
+    }
 
     
 

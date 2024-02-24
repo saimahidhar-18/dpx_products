@@ -22,7 +22,7 @@ public class CredentialServices {
     MongoDatabase database = mongoClient.getDatabase("data_products");
     MongoCollection<Document> credCollection = database.getCollection("credentials");
 
-    UserCredentials user0 = new UserCredentials("Ginny",BCrypt.hashpw("pass123", BCrypt.gensalt()),"consumer");
+    UserCredentials user0 = new UserCredentials("Ginny",BCrypt.hashpw("pass123", BCrypt.gensalt()),"consumer","active");
 
     
 
