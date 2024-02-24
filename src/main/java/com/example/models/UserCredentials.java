@@ -8,6 +8,7 @@ public class UserCredentials {
     private String username;
     private String password;
     private String role;
+    private String state;
 
     public UserCredentials(){
 
@@ -17,6 +18,7 @@ public class UserCredentials {
         this.username = username;
         this.password = password;
         this.role = role;
+        this.state = "inactive";
     }
 
     public String getUsername() {
@@ -41,6 +43,14 @@ public class UserCredentials {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
     }
 
     

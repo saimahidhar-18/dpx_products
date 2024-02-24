@@ -14,6 +14,7 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
+import com.mongodb.client.model.Updates;
 
 public class CredentialServices {
 
@@ -30,15 +31,18 @@ public class CredentialServices {
         if (credCollection.countDocuments() == 0) {
             Document user1 = new Document("username","Harry")
             .append("password", BCrypt.hashpw("pass123", BCrypt.gensalt()))
-            .append("role", "producer");
+            .append("role", "producer")
+            .append("state", "inactive");
 
             Document user2 = new Document("username","Ron")
             .append("password", BCrypt.hashpw("pass1234", BCrypt.gensalt()))
-            .append("role", "consumer");
+            .append("role", "consumer")
+            .append("state", "inactive");
 
             Document user3 = new Document("username","Hermoine")
             .append("password", BCrypt.hashpw("password123", BCrypt.gensalt()))
-            .append("role", "consumer");
+            .append("role", "consumer")
+            .append("state", "inactive");
 
 
             credCollection.insertOne(user1);
@@ -49,15 +53,17 @@ public class CredentialServices {
     }
 
     public boolean isValid(String username, String password){
-        FindIterable<Document> documents = credCollection.find(Filters.eq("userName", username));
-        MongoCursor<Document> cursor = documents.iterator();
-        while(cursor.hasNext()){
+        FindIterable<Document> documents = credCollection.find(Filters.eq("username", username));
+        MongoCursor<Document> cursor = documents.iterator();        
+        while (cursor.hasNext()) {
             Document doc = cursor.next();
-
+    
             String hashedPassword = doc.getString("password");
-            return BCrypt.hashpw(password, BCrypt.gensalt()).equals(hashedPassword);
+            if (BCrypt.checkpw(password, hashedPassword)) {
+                return true; 
+            }
         }
-        return true;
+        return false;
     }
 
     public UserCredentials addUser(UserCredentials newUser){
@@ -73,6 +79,26 @@ public class CredentialServices {
         Document document = credCollection.find(Filters.eq("username", username)).first();
         String role = document.getString("role");
         return role;
+    }
+
+    public void setState(String username){
+        Document document = credCollection.find(Filters.eq("username", username)).first();
+        
+        if (document != null) {
+            credCollection.updateOne(
+                Filters.eq("username", username),
+                Updates.set("state", "active")
+            );
+        }
+    }
+
+    public boolean isUserAuthorized(String username){
+        Document document = credCollection.find(Filters.eq("username", username)).first();
+        if (document != null){
+            String currentState= document.getString("state");
+            return currentState.equals("active");
+        }
+        return false;
     }
 
     

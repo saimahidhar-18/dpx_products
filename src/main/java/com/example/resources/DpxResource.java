@@ -14,7 +14,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import com.example.Filters.CredentialFilter;
+//import com.example.Filters.CredentialFilter;
 import com.example.models.Product;
 import com.example.services.DpxServices;
 import com.mongodb.MongoException;

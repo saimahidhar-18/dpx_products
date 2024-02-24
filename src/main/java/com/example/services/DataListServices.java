@@ -116,19 +116,6 @@ public class DataListServices {
 
         Document document = collection.find(Filters.eq("id", productid)).first();
 
-        // if(document!=null){
-        //     List<Document> doclist = document.getList("dataList", Document.class);
-        //     for(Document doc : doclist){
-        //         long datalistId = doc.getLong("urlId");
-        //         if(datalistId == datalistid){
-        //             doclist.remove(doc);
-        //             collection.updateOne(Filters.eq("id", productid), Updates.set("dataList", doclist));
-
-        //         }
-        //     }
-        // }
-        // return;
-
         if (document != null) {
             List<Document> doclist = document.getList("dataList", Document.class);
             Iterator<Document> iterator = doclist.iterator();
@@ -145,5 +132,37 @@ public class DataListServices {
             }
         }
         return;
+    }
+
+    public DataList updateDataList(long productid, long  datalistid, DataList newDataList){
+
+        Document document = collection.find(Filters.eq("id", productid)).first();
+
+        if (document != null) {
+            List<Document> doclist = document.getList("dataList", Document.class);
+            Iterator<Document> iterator = doclist.iterator();
+    
+            while (iterator.hasNext()) {
+                Document doc = iterator.next();
+                long currentDatalistId = doc.getLong("urlId");
+    
+                if (currentDatalistId == datalistid) {
+                    
+                    doc.put("urlName", newDataList.getUrlName());
+                    doc.put("urlDescription", newDataList.getUrlDescription());
+                    doc.put("creationDate", newDataList.getCreationDate());
+                    doc.put("lastUpdateDate", newDataList.getLastUpdateDate());
+                    doc.put("copyUrl", newDataList.getCopyUrl());
+    
+                    collection.updateOne(
+                        Filters.eq("id", productid),
+                        Updates.set("dataList", doclist)
+                    );
+    
+                    break;
+                }
+            }            
+        }
+        return null;
     }
 }
