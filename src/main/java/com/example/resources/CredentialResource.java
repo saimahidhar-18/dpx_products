@@ -13,7 +13,7 @@ import javax.ws.rs.core.MediaType;
 
 import com.example.services.CredentialServices;
 
-@Path("/login")
+@Path("/user")
 
 public class CredentialResource {
     
@@ -21,11 +21,13 @@ public class CredentialResource {
 
 
     @GET
+    @Path("/login")
     public String test(){
         return "working!!!!!";
     }
 
     @POST
+    @Path("/login")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON)
 
@@ -58,6 +60,15 @@ public class CredentialResource {
         }
 
     }
+
+    @Path("/logout")
+    @GET
+    @Produces(MediaType.TEXT_PLAIN)
+    public String logout(){
+        if(credentialServices.userLogout()) return "Successfully loggedOut!!!";
+        return "hoooo";
+    }
+
 
 
 

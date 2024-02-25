@@ -107,7 +107,37 @@ public class CredentialServices {
         //return true;
         return "POST".equalsIgnoreCase(method) || "PUT".equalsIgnoreCase(method) || "DELETE".equalsIgnoreCase(method);
         // return HttpMethod.POST.equals(method) || HttpMethod.PUT.equals(method) || HttpMethod.DELETE.equals(method);
+    }
+
+
+    public boolean userLogout(){
+        // FindIterable<Document> docs = credCollection.find();
+        // MongoCursor<Document> cursor = docs.iterator();
+        // while(cursor.hasNext()){
+        //     Document doc = cursor.next();
+        //     if(doc.getString("state").equals("inactive")){
+        //         String username = doc.getString("userName");
+        //         credCollection.updateOne(Filters.eq("username", username), Updates.set("state", "inactive"));
+        //     }
+        // }
+
+        FindIterable<Document> docs = credCollection.find();
+        MongoCursor<Document> cursor = docs.iterator();
+        
+        while(cursor.hasNext()) {
+            Document doc = cursor.next();
+            
+            
+            String state = doc.getString("state");
+            if (state != null && state.equals("active")) {
+                String username = doc.getString("username");
+                credCollection.updateOne(Filters.eq("username", username), Updates.set("state", "inactive"));
+                return true;
+            }
         }
+        return false;
+
+    }
 
     
 }
