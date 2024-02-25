@@ -16,6 +16,7 @@ import javax.ws.rs.core.Response;
 
 //import com.example.Filters.CredentialFilter;
 import com.example.models.Product;
+import com.example.services.CredentialServices;
 import com.example.services.DpxServices;
 import com.mongodb.MongoException;
 import com.mongodb.client.result.DeleteResult;
@@ -28,11 +29,8 @@ public class DpxResource {
 
 
     DpxServices dpxservice1=new DpxServices();
-    // private final CredentialFilter credfilter;
+    CredentialServices credentialService = CredentialResource.credentialServices; 
 
-    // public Dpxresource2(CredentialFilter credfilter){
-    //     this.credfilter=credfilter;
-    // }
 
     @GET
     public Response getProducts(){
@@ -124,6 +122,11 @@ public class DpxResource {
     @Path("/{productid}/datalist")
     public DataListResource getDataList(){
         return new DataListResource();
+    }
+
+    @Path("/{productid}/userlist")
+    public UserListResource getUserList(){
+        return new UserListResource();
     }
 
 }

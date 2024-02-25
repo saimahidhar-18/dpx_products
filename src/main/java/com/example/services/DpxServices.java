@@ -45,7 +45,9 @@ public class DpxServices {
                     .append("lastUpdateDate", "2023")
                     .append("copyUrl", "https://www.google.co.in/")
             ))
-            .append("users", Arrays.asList("Harry","Ron"));
+            .append("users", Arrays.asList(
+                new Document("userName", "Harry"),
+                new Document("userName", "Ron")));
 
             Document prod2 = new Document("id",112L)
             .append("name", "Customised Weather Data Validation")
@@ -63,7 +65,9 @@ public class DpxServices {
                     .append("lastUpdateDate", "2023")
                     .append("copyUrl", "https://www.google.co.in/")
             ))
-            .append("users", Arrays.asList("Harry","Hermoine"));
+            .append("users", Arrays.asList(
+                new Document("userName", "Harry"),
+                new Document("userName", "Ron")));
 
             Document prod3 = new Document("id",113L)
             .append("name", "Weather Source: OnPoint Weather Impact Indices")
@@ -81,7 +85,9 @@ public class DpxServices {
                     .append("lastUpdateDate", "2023")
                     .append("copyUrl", "https://www.google.co.in/")
             ))
-            .append("users", Arrays.asList("Harry","Ron","Hermoine"));
+            .append("users", Arrays.asList(
+                new Document("userName", "Harry"),
+                new Document("userName", "Ron")));
 
             Document prod4 = new Document("id",114L)
             .append("name", "LIVE Daily Weather Feed | United States Weather Data")
@@ -98,7 +104,9 @@ public class DpxServices {
                     .append("lastUpdateDate", "2023")
                     .append("copyUrl", "https://www.google.co.in/")
             ))
-            .append("users", Arrays.asList("Harry","Ron","Hermoine"));
+            .append("users", Arrays.asList(
+                new Document("userName", "Harry"),
+                new Document("userName", "Ron")));
 
             collection.insertOne(prod1);
             collection.insertOne(prod2);
@@ -122,9 +130,8 @@ public class DpxServices {
             String desc = document.getString("description");
             String domain = document.getString("domain");
             String status = document.getString("status");
-            String author = document.getString("author");
-            List<String> users =document.getList("users", String.class);
-            Product m1=new Product(id,name,desc, domain, status,author,users);
+            String author = document.getString("producer");
+            Product m1=new Product(id,name,desc, domain, status,author);
             list.add(m1);
         }
 
@@ -140,14 +147,14 @@ public class DpxServices {
             String description = document.getString("description");
             String domain = document.getString("domain");
             String status = document.getString("status");
-            String author = document.getString("author");
+            String author = document.getString("producer");
             //List<String> urls = document.getList("urls", String.class);
-            List<String> users =document.getList("users", String.class);
+           // List<String> users =document.getList("users", String.class);
             //List<Document> urls = document.getList("urls", Document.class);
 
 
 
-            Product P = new Product(id,name,description,domain,status,author,users);
+            Product P = new Product(id,name,description,domain,status,author);
             return P;
         }
         return null;

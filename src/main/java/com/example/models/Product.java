@@ -15,13 +15,13 @@ public class Product {
     private String author;
    // private List<String> urls;
     private List<DataList> dataLists;
-    private List<String> users;
+    private List<UserList> users;
 
     public Product(){
     }
     
     public Product(long id, String name, String description, String domain, String status,
-            String author, List<String> users) {
+            String author) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -30,7 +30,7 @@ public class Product {
         this.status = status;
        
        // this.urls = urls;
-        this.users= users;
+       // this.users= users;
     }
 
     public Product(long id , String name , String description, String domain, String author, List<DataList> dataLists){
@@ -91,10 +91,10 @@ public class Product {
     public void setStatus(String Status) {
         this.status = Status;
     }
-    public List<String> getUsers() {
+    public List<UserList> getUsers() {
         return users;
     }
-    public void setUsers(List<String> users) {
+    public void setUsers(List<UserList> users) {
         this.users = users;
     }
     public List<DataList> getDataLists() {

@@ -1,6 +1,8 @@
 package com.example.services;
 
 
+import javax.ws.rs.HttpMethod;
+
 import org.bson.Document;
 
 //import org.apache.commons.codec.digest.DigestUtils;
@@ -100,6 +102,12 @@ public class CredentialServices {
         }
         return false;
     }
+
+    public boolean isRestrictedMethod(String method) {
+        //return true;
+        return "POST".equalsIgnoreCase(method) || "PUT".equalsIgnoreCase(method) || "DELETE".equalsIgnoreCase(method);
+        // return HttpMethod.POST.equals(method) || HttpMethod.PUT.equals(method) || HttpMethod.DELETE.equals(method);
+        }
 
     
 }

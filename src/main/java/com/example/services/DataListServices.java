@@ -36,7 +36,7 @@ public class DataListServices {
         String name = document.getString("name");
         String desc = document.getString("description");
         String domain = document.getString("domain");
-        String author = document.getString("author");
+        String author = document.getString("producer");
 
         List<Document> doclist = document.getList("dataList", Document.class);
         List<DataList> datalist = new ArrayList<>();

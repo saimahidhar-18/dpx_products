@@ -1,6 +1,7 @@
 package com.example.Filters;
 
 
+import javax.ws.rs.HttpMethod;
 import javax.ws.rs.Produces;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerRequestFilter;
@@ -12,6 +13,7 @@ import com.example.resources.CredentialResource;
 import com.example.services.CredentialServices;
 
 import java.io.IOException;
+import java.util.List;
 
 @Provider
 @Produces(MediaType.APPLICATION_JSON)
@@ -22,6 +24,7 @@ public class AuthenticationFilter implements ContainerRequestFilter {
     @Override
     public void filter(ContainerRequestContext requestContext) throws IOException {
         String path = requestContext.getUriInfo().getPath();
+        String method = requestContext.getMethod();
 
         String[] segments = path.split("/");
 
@@ -29,15 +32,34 @@ public class AuthenticationFilter implements ContainerRequestFilter {
             return;
         }
         
-        String username = "Harry"; 
-       // if(credentialService==null) return;
-        if (!credentialService.isUserAuthorized(username)) {
+        // String username = requestContext.getHeaders().get("Username ").get(0); 
+        List<String> usernameHeader = requestContext.getHeaders().get("Username");
+        String username = (usernameHeader != null && !usernameHeader.isEmpty()) ? usernameHeader.get(0) : null;
+
+        
+        if (username==null || !credentialService.isUserAuthorized(username)) {
 
             requestContext.abortWith(Response.status(Response.Status.FORBIDDEN)
                     .entity("{\"error\": \"User is not authorized\"}")
                     .type(MediaType.APPLICATION_JSON)
                     .build());
         }
+
+
+        String userRole = credentialService.getUserRole(username);
+
+        
+
+        if ("consumer".equals(userRole) && credentialService.isRestrictedMethod(method)) {
+    
+            requestContext.abortWith(Response.status(Response.Status.FORBIDDEN)
+                    .entity("{\"error\": \"Consumer is not authorized to perform this action\"}")
+                    .type(MediaType.APPLICATION_JSON)
+                    .build());
+            return;
+        }
+        
+
         return;
 
     }
