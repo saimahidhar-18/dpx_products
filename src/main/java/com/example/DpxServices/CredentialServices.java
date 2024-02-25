@@ -26,27 +26,27 @@ public class CredentialServices {
 
     
 
-    public CredentialServices(){
-        if (credCollection.countDocuments() == 0) {
-            Document user1 = new Document("username","Harry")
-            .append("password", BCrypt.hashpw("pass123", BCrypt.gensalt()))
-            .append("role", "producer");
+    // public CredentialServices(){
+    //     if (credCollection.countDocuments() == 0) {
+    //         Document user1 = new Document("username","Harry")
+    //         .append("password", BCrypt.hashpw("pass123", BCrypt.gensalt()))
+    //         .append("role", "producer");
 
-            Document user2 = new Document("username","Ron")
-            .append("password", BCrypt.hashpw("pass1234", BCrypt.gensalt()))
-            .append("role", "consumer");
+    //         Document user2 = new Document("username","Ron")
+    //         .append("password", BCrypt.hashpw("pass1234", BCrypt.gensalt()))
+    //         .append("role", "consumer");
 
-            Document user3 = new Document("username","Hermoine")
-            .append("password", BCrypt.hashpw("password123", BCrypt.gensalt()))
-            .append("role", "consumer");
+    //         Document user3 = new Document("username","Hermoine")
+    //         .append("password", BCrypt.hashpw("password123", BCrypt.gensalt()))
+    //         .append("role", "consumer");
 
 
-            credCollection.insertOne(user1);
-            credCollection.insertOne(user2);
-            credCollection.insertOne(user3);
-        }
+    //         credCollection.insertOne(user1);
+    //         credCollection.insertOne(user2);
+    //         credCollection.insertOne(user3);
+    //     }
         
-    }
+    // }
 
     public boolean isValid(String username, String password){
         FindIterable<Document> documents = credCollection.find(Filters.eq("userName", username));

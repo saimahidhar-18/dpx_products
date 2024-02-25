@@ -21,7 +21,7 @@ public class Product {
     }
     
     public Product(long id, String name, String description, String domain, String status,
-            String author, List<String> users) {
+            String author, List<DataList>dataLists,List<String> users) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -29,7 +29,7 @@ public class Product {
         this.date = new Date();
         this.status = status;
        
-       // this.urls = urls;
+        this.dataLists=dataLists;
         this.users= users;
     }
     
@@ -39,12 +39,7 @@ public class Product {
     public void setAuthor(String Author) {
         this.author = Author;
     }
-    // public List<String> getUrls() {
-    //     return urls;
-    // }
-    // public void setUrls(List<String> urls) {
-    //     this.urls = urls;
-    // }
+
     public long getId() {
         return id;
     }
@@ -87,10 +82,10 @@ public class Product {
     public void setUsers(List<String> users) {
         this.users = users;
     }
-    public List<DataList> getDataLists() {
+    public List<DataList> getDataList() {
         return dataLists;
     }
-    public void setDataLists(List<DataList> dataLists) {
+    public void setDataList(List<DataList> dataLists) {
         this.dataLists = dataLists;
     }
 }

@@ -7,6 +7,8 @@ import java.util.stream.Collectors;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
+
+import com.example.DpxModel.DataList;
 import com.example.DpxModel.Product;
 
 import com.mongodb.client.FindIterable;
@@ -24,10 +26,11 @@ public class DpxServices {
     
     
 
-    private static final String CONNECTION_STRING = "mongodb://localhost:27017";
-    MongoClient mongoClient = MongoClients.create(CONNECTION_STRING);
+    
+    MongoClient mongoClient = Dbconnector.getclient();
     MongoDatabase database = mongoClient.getDatabase("data_products");
     MongoCollection<Document> collection = database.getCollection("products");
+
 
     public DpxServices(){
         if(collection.countDocuments()==0){
@@ -109,7 +112,8 @@ public class DpxServices {
             String status = document.getString("status");
             String author = document.getString("author");
             List<String> users =document.getList("users", String.class);
-            Product m1=new Product(id,name,desc, domain, status,author,users);
+            List<DataList> dataList = document.getList("dataList",DataList.class);
+            Product m1=new Product(id,name,desc, domain, status,author,dataList,users);
             list.add(m1);
         }
 
@@ -126,13 +130,13 @@ public class DpxServices {
             String domain = document.getString("domain");
             String status = document.getString("status");
             String author = document.getString("author");
-            //List<String> urls = document.getList("urls", String.class);
+            List<DataList> dataList=document.getList("dataList",DataList.class);
             List<String> users =document.getList("users", String.class);
-            //List<Document> urls = document.getList("urls", Document.class);
+            
 
 
 
-            Product P = new Product(id,name,description,domain,status,author,users);
+            Product P = new Product(id,name,description,domain,status,author,dataList,users);
             return P;
         }
         return null;
@@ -149,9 +153,9 @@ public class DpxServices {
                     .append("name", product.getName())
                     .append("domain", product.getDomain())
                     .append("status", product.getStatus())
-                    .append("description", product.getDescription());
-                    // .append("urls", product.getUrls())
-                    // .append("users", product.getUsers());
+                    .append("description", product.getDescription())
+                    .append("dataList", product.getDataList())
+                    .append("users", product.getUsers());
             collection.insertOne(document);
             System.out.println("Document inserted successfully.");
 
@@ -169,8 +173,8 @@ public class DpxServices {
                 Updates.set("description", product.getDescription()),
                 Updates.set("domain", product.getDomain()),
                 Updates.set("status", product.getStatus()),
-                Updates.set("users", product.getUsers())
-               // Updates.set("urls", product.getUrls())
+                Updates.set("users", product.getUsers()),
+                Updates.set("dataLists", product.getDataList())
                 
             )
         );

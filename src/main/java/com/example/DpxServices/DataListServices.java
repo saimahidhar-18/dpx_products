@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.bson.Document;
 
+import com.example.DpxServices.Dbconnector;
 import com.example.DpxModel.DataList;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoClient;
@@ -14,8 +15,7 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 
 public class DataListServices {
-    private static final String CONNECTION_STRING = "mongodb://localhost:27017";
-    MongoClient mongoClient = MongoClients.create(CONNECTION_STRING);
+    MongoClient mongoClient= Dbconnector.getclient();
     MongoDatabase database = mongoClient.getDatabase("data_products");
     MongoCollection<Document> collection = database.getCollection("products");
 
