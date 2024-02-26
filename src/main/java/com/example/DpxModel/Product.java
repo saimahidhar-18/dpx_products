@@ -14,14 +14,14 @@ public class Product {
     private String status;
     private String author;
    // private List<String> urls;
-    private List<DataList> dataLists;
-    private List<String> users;
+    // private List<DataList> dataLists;
+    // private List<String> users;
 
     public Product(){
     }
     
     public Product(long id, String name, String description, String domain, String status,
-            String author, List<DataList>dataLists,List<String> users) {
+            String author) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -29,8 +29,8 @@ public class Product {
         this.date = new Date();
         this.status = status;
        
-        this.dataLists=dataLists;
-        this.users= users;
+        // this.dataLists=dataLists;
+        // this.users= users;
     }
     
     public String getAuthor() {
@@ -76,16 +76,16 @@ public class Product {
     public void setStatus(String Status) {
         this.status = Status;
     }
-    public List<String> getUsers() {
-        return users;
-    }
-    public void setUsers(List<String> users) {
-        this.users = users;
-    }
-    public List<DataList> getDataList() {
-        return dataLists;
-    }
-    public void setDataList(List<DataList> dataLists) {
-        this.dataLists = dataLists;
-    }
+    // public List<String> getUsers() {
+    //     return users;
+    // }
+    // public void setUsers(List<String> users) {
+    //     this.users = users;
+    // }
+    // public List<DataList> getDataList() {
+    //     return dataLists;
+    // }
+    // public void setDataList(List<DataList> dataLists) {
+    //     this.dataLists = dataLists;
+    // }
 }

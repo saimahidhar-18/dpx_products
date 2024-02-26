@@ -40,8 +40,13 @@ public class DpxResource {
     public Response getProducts(){
         try{
             List<Product> products = dpxservice1.getAllProducts();
-            if(products.size()==0)
-                return Response.ok("products collection is empty").build();
+            if(products.size()==0){
+                // Responsebody responsebody= new Responsebody();
+                // responsebody.setCode("unexpected_exception");
+                // responsebody.setMessage("cant get all products");
+                return Response.ok("error").build();
+            }
+                
             else
                 return Response.ok(products).build();
         }
@@ -56,8 +61,11 @@ public class DpxResource {
    // @RolesAllowed("producer")
     public Response addProduct(Product product){
         try{
-            Product p = dpxservice1.addProduct(product);
-            return Response.ok(p).build();
+            //Product p = dpxservice1.addProduct(product);
+            Responsebody responsebody= new Responsebody();
+            responsebody.setCode("unexpected_exception");
+            responsebody.setMessage("cant get all products");
+            return Response.ok(responsebody).build();
         }
         catch (MongoException e) {
             
