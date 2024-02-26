@@ -112,6 +112,7 @@ public class DpxServices {
             String status = document.getString("status");
             String author = document.getString("author");
             List<String> users =document.getList("users", String.class);
+            //List<DataList> dataList = new ArrayList<>();
             List<DataList> dataList = document.getList("dataList",DataList.class);
             Product m1=new Product(id,name,desc, domain, status,author,dataList,users);
             list.add(m1);
