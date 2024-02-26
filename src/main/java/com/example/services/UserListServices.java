@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.bson.Document;
 
+import com.example.models.Product;
 import com.example.models.UserList;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
@@ -26,10 +27,12 @@ public class UserListServices {
 
     }
   
-    public List<UserList> getUsers(long productId){
+    public Product getUsers(long productId){
         Document document = collection.find(Filters.eq("id", productId)).first();
         
         if(document!=null){
+            long id = document.getLong("id");
+            String name = document.getString("name");
             List<Document> doclist = document.getList("users", Document.class);
             List<UserList> userlist = new ArrayList<>();
 
@@ -38,10 +41,10 @@ public class UserListServices {
                 userList.setUserName(doc.getString("userName"));
                 userlist.add(userList);
             }
-
-            return userlist;
+            Product p = new Product(id, name, userlist);
+            return p;
         }
-        return Collections.emptyList();
+        return new Product();
 
     }
 
@@ -62,6 +65,7 @@ public class UserListServices {
     }
 
     public List<UserList> deleteUser(long productid, String userName){
+        //String user = userName.getUserName();
         Document document = collection.find(Filters.eq("id", productid)).first();
 
         if (document != null){

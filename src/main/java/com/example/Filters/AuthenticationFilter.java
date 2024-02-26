@@ -1,7 +1,7 @@
 package com.example.Filters;
 
 
-import javax.ws.rs.HttpMethod;
+
 import javax.ws.rs.Produces;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerRequestFilter;
@@ -34,7 +34,7 @@ public class AuthenticationFilter implements ContainerRequestFilter {
         
         // String username = requestContext.getHeaders().get("Username ").get(0); 
         List<String> usernameHeader = requestContext.getHeaders().get("Username");
-        String username = (usernameHeader != null && !usernameHeader.isEmpty()) ? usernameHeader.get(0) : null;
+        String username = ( usernameHeader != null && !usernameHeader.isEmpty() ) ? usernameHeader.get(0) : null;
 
         
         if (username==null || !credentialService.isUserAuthorized(username)) {
@@ -46,11 +46,11 @@ public class AuthenticationFilter implements ContainerRequestFilter {
         }
 
 
-        String userRole = credentialService.getUserRole(username);
+        String userRole = (username != null) ? credentialService.getUserRole(username) : null;
 
         
 
-        if ("consumer".equals(userRole) && credentialService.isRestrictedMethod(method)) {
+        if ( userRole == null || ("consumer".equals(userRole) && credentialService.isRestrictedMethod(method))) {
     
             requestContext.abortWith(Response.status(Response.Status.FORBIDDEN)
                     .entity("{\"error\": \"Consumer is not authorized to perform this action\"}")

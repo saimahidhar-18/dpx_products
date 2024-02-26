@@ -12,7 +12,7 @@ public class Product {
     private String domain;
     private Date date;
     private String status;
-    private String author;
+    private String producer;
    // private List<String> urls;
     private List<DataList> dataLists;
     private List<UserList> users;
@@ -21,7 +21,7 @@ public class Product {
     }
     
     public Product(long id, String name, String description, String domain, String status,
-            String author) {
+            String producer) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -33,21 +33,27 @@ public class Product {
        // this.users= users;
     }
 
-    public Product(long id , String name , String description, String domain, String author, List<DataList> dataLists){
+    public Product(long id , String name , String description, String domain, String producer, List<DataList> dataLists){
         this.id = id;
         this.name = name;
         this.description = description;
         this.domain = domain;
-        this.author = author;
+        this.producer = producer;
         this.dataLists = dataLists;
        
     }
-    
-    public String getAuthor() {
-        return author;
+
+    public Product(long id, String name,  List<UserList> users){
+        this.id = id;
+        this.name = name;
+        this.users= users;
     }
-    public void setAuthor(String Author) {
-        this.author = Author;
+    
+    public String getProducer() {
+        return producer;
+    }
+    public void setProducer(String producer) {
+        this.producer = producer;
     }
     // public List<String> getUrls() {
     //     return urls;

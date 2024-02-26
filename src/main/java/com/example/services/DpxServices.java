@@ -8,6 +8,7 @@ import org.bson.Document;
 import org.bson.types.ObjectId;
 
 import com.example.models.Product;
+import com.example.resources.CredentialResource;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
@@ -28,6 +29,9 @@ public class DpxServices {
     MongoDatabase database = mongoClient.getDatabase("data_products");
     MongoCollection<Document> collection = database.getCollection("products");
 
+    CredentialServices credentialService = CredentialResource.credentialServices; 
+
+
     public DpxServices(){
         if(collection.countDocuments()==0){
             Document prod1 = new Document("id",111L)
@@ -36,7 +40,7 @@ public class DpxServices {
             .append("domain", "weather data")
             .append("date", new Date())
             .append("status", "published")
-            .append("producer", "Jack Sparrow")
+            .append("producer", "Harry")
             .append("dataList", Arrays.asList(
                 new Document("urlId", 211L)
                     .append("urlName", "dp1dl1")
@@ -56,7 +60,7 @@ public class DpxServices {
             .append("domain", "weather data")
             .append("date", new Date())
             .append("status", "published")
-            .append("producer","Jack Sparrow")
+            .append("producer","Harry")
             .append("dataList", Arrays.asList(
                 new Document("urlId", 211L)
                     .append("urlName", "dp2dl1")
@@ -67,7 +71,7 @@ public class DpxServices {
             ))
             .append("users", Arrays.asList(
                 new Document("userName", "Harry"),
-                new Document("userName", "Ron")));
+                new Document("userName", "Hermoine")));
 
             Document prod3 = new Document("id",113L)
             .append("name", "Weather Source: OnPoint Weather Impact Indices")
@@ -76,7 +80,7 @@ public class DpxServices {
             .append("domain", "weather data")
             .append("date", new Date())
             .append("status", "published")
-            .append("producer", "Jack Sparrow")
+            .append("producer", "Harry")
             .append("dataList", Arrays.asList(
                 new Document("urlId", 211L)
                     .append("urlName", "dp3dl1")
@@ -95,7 +99,7 @@ public class DpxServices {
             .append("domain", "weather data")
             .append("date", new Date())
             .append("status", "published")
-            .append("producer", "Jack Sparrow")
+            .append("producer", "Harry")
             .append("dataList", Arrays.asList(
                 new Document("urlId", 211L)
                     .append("urlName", "dp4dl1")
@@ -106,7 +110,7 @@ public class DpxServices {
             ))
             .append("users", Arrays.asList(
                 new Document("userName", "Harry"),
-                new Document("userName", "Ron")));
+                new Document("userName", "Hermoine")));
 
             collection.insertOne(prod1);
             collection.insertOne(prod2);
@@ -116,12 +120,14 @@ public class DpxServices {
         }
     }
 
-    public List<Product> getAllProducts(){
+    public List<Product> getAllProducts(String username){
+        String role = credentialService.getUserRole(username);
         
         FindIterable<Document> findIterable = collection.find();
-        // Getting the iterator
         Iterator<Document> iterator = findIterable.iterator();
         List<Product> list=new ArrayList<>();
+
+        
         while (iterator.hasNext()){
             Document document = iterator.next();
 
@@ -132,12 +138,76 @@ public class DpxServices {
             String status = document.getString("status");
             String author = document.getString("producer");
             Product m1=new Product(id,name,desc, domain, status,author);
-            list.add(m1);
+
+            if(status.equals("published")){
+                if(role.equals("producer"))
+                    list.add(m1);
+                else{
+                    List<Document> doclist = document.getList("users", Document.class);
+                    if (doclist != null){
+                        for (Document doc : doclist){
+                            String currentUser = doc.getString("userName");
+                            if(currentUser.equals(username)){
+                                list.add(m1);
+                            }
+                        }
+                    }
+                }
+            
+            }
         }
 
-        System.out.println(list.size());
-        return list;
+            System.out.println(role+ " no wayy" +list.size());
+            return list;
+        
+        // else{
+        //     while (iterator.hasNext()){
+        //         Document document = iterator.next();
+
+        //         List<Document> doclist = document.getList("users", Document.class);
+        //         for (Document doc : doclist){
+        //             String currentUser = doc.getString("userName");
+        //             if(currentUser.equals(username)){
+
+        //             }
+        //         }
+        //     }
+
+        // }
+    
     }
+
+    public List<Product> getDraftProducts(String username){
+        String role = credentialService.getUserRole(username);
+        
+        FindIterable<Document> findIterable = collection.find();
+        Iterator<Document> iterator = findIterable.iterator();
+        List<Product> list=new ArrayList<>();
+
+        
+        while (iterator.hasNext()){
+            Document document = iterator.next();
+
+            long id = document.getLong("id");
+            String name = document.getString("name");
+            String desc = document.getString("description");
+            String domain = document.getString("domain");
+            String status = document.getString("status");
+            String author = document.getString("producer");
+            Product m1=new Product(id,name,desc, domain, status,author);
+
+            if(status.equals("draft")){
+                list.add(m1);           
+            }
+            System.out.println(id + status);
+        }
+
+        System.out.println(role+ " no wayy" );
+        return list;
+    
+    }
+
+
     public Product getProduct(long id){
 
         Document document = collection.find(Filters.eq("id", id)).first();
@@ -171,7 +241,8 @@ public class DpxServices {
                     .append("name", product.getName())
                     .append("domain", product.getDomain())
                     .append("status", product.getStatus())
-                    .append("description", product.getDescription());
+                    .append("description", product.getDescription())
+                    .append("producer", product.getProducer());
                    
             collection.insertOne(document);
             System.out.println("Document inserted successfully.");
@@ -213,6 +284,16 @@ public class DpxServices {
         }
         return null;
         
+    }
+
+
+    public void publishProduct(long id){
+        Document document = collection.find(Filters.eq("id", id)).first();
+        if(document!=null){
+            collection.updateOne(Filters.eq("id", id), Updates.set("status", "published"));
+
+        } 
+
     }
     
 }

@@ -66,7 +66,7 @@ public class CredentialResource {
     @Produces(MediaType.TEXT_PLAIN)
     public String logout(){
         if(credentialServices.userLogout()) return "Successfully loggedOut!!!";
-        return "hoooo";
+        return "something went wrong";
     }
 
 

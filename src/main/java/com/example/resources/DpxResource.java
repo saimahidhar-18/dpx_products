@@ -6,6 +6,7 @@ import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -29,13 +30,29 @@ public class DpxResource {
 
 
     DpxServices dpxservice1=new DpxServices();
-    CredentialServices credentialService = CredentialResource.credentialServices; 
 
 
     @GET
-    public Response getProducts(){
+    public Response getProducts(@HeaderParam("Username") String username){
         try{
-            List<Product> products = dpxservice1.getAllProducts();
+            List<Product> products = dpxservice1.getAllProducts(username);
+            if(products.size()==0)
+                return Response.ok("products collection is empty").build();
+            else
+                return Response.ok(products).build();
+        }
+        catch (MongoException e) {
+            
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Error getting the products.").build();
+        }
+        
+    }
+
+    @GET
+    @Path("/drafts")
+    public Response getDraftProducts(@HeaderParam("Username") String username){
+        try{
+            List<Product> products = dpxservice1.getDraftProducts(username);
             if(products.size()==0)
                 return Response.ok("products collection is empty").build();
             else
@@ -128,5 +145,13 @@ public class DpxResource {
     public UserListResource getUserList(){
         return new UserListResource();
     }
+
+    @GET
+    @Path("/{productid}/publish")
+    public String publishProduct(@PathParam("productid") long id){
+        dpxservice1.publishProduct(id);
+        return id + "  hoooo";
+    }
+
 
 }

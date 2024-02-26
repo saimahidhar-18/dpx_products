@@ -26,6 +26,7 @@ public class DataListResource {
     DataListServices dataListServices = new DataListServices();
     
     @GET
+    @Produces(MediaType.APPLICATION_JSON)
     public Product getAllDatalist(@PathParam("productid") long productId) {
         return dataListServices.getDataLists(productId);
     }
